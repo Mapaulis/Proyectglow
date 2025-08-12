@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Contacto | Glow Show Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('imagenes/fondocontacto.png') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255, 255, 255, 0.7); 
+      backdrop-filter: blur(8px); 
+      z-index: 0;
+    }
+
+    .formulario-contacto {
+      position: relative;
+      z-index: 1;
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      max-width: 700px;
+      width: 90%;
+      margin: 80px auto;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #c71585;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 1px 1px #fff;
+    }
+
+    h4 {
+      text-align: center;
+      color: #a0136f;
+      margin-top: 10px;
+    }
+
+    .iconito {
+      text-align: center;
+      font-size: 40px;
+      color: #ff69b4;
+      margin-bottom: 10px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, textarea {
+      padding: 14px;
+      font-size: 16px;
+      border: 2px solid #f8c1d1;
+      border-radius: 10px;
+      background-color: #fffafc;
+      transition: border-color 0.3s ease;
+      width: 100%;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #d87093;
+    }
+
+    textarea {
+      resize: none;
+      height: 120px;
+    }
+
+    .botons {
+      background-color: #c71585;
+      color: #fff;
+      padding: 14px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .botons:hover {
+      background-color: #a0136f;
+    }
+
+    a {
+      color: #c71585;
+      text-decoration: none;
+      margin: 10px 5px 0;
+      text-align: center;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* --- RESPONSIVO --- */
+    @media (max-width: 600px) {
+      .formulario-contacto {
+        padding: 20px;
+        margin: 50px 15px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .iconito {
+        font-size: 34px;
+      }
+
+      input, textarea {
+        font-size: 14px;
+        padding: 12px;
+      }
+
+      .botons {
+        font-size: 16px;
+        padding: 12px;
+      }
+
+      a {
+        display: block;
+        margin: 8px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="formulario-contacto">
+    <div class="iconito">
+      <i class="fas fa-envelope-open-text"></i>
+    </div>
+    <h1>Contáctanos | Glow Show Up</h1>
+
+    <form class="form-register"
+        action="https://formspree.io/f/mqakjdnq"
+        method="post">
+        <h4>FORMULARIO PARA TICKET</h4>
+        <input class="controls" type="text" name="nombre" id="nombre" placeholder="INGRESE SU NOMBRE" required>
+        <input class="controls" type="text" name="apellido" id="apellido" placeholder="INGRESE SU APELLIDO" required>
+        <input class="controls" type="email" name="correo" id="correo" placeholder="INGRESE SU CORREO" required>
+        <input class="controls" type="text" name="asunto" id="asunto" placeholder="ASUNTO" required>
+        <input class="botons" type="submit" value="ENVIAR">
+        <div style="text-align: center;">
+          <a href="index.html">INICIO</a> |
+          <a href="reseñas.html">RESEÑAS</a> |
+          <a href="gracias.html">GRACIAS</a>
+        </div>
+    </form>
+  </div>
+
+</body>
+</html>
