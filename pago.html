@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pago | Glow Show Up</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('imagenes/fondopago.png') no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .contenedor {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 40px;
+      width: 450px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #b472ff;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #b472ff;
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #8e4dd4;
+    }
+
+    @media (max-width: 480px) {
+      .contenedor {
+        width: 90%;
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contenedor">
+    <h2>Realiza tu pago ✨</h2>
+    <form action="procesar_pago.php" method="POST">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" name="nombre" id="nombre" placeholder="Tu nombre completo" required>
+
+      <label for="numero_tarjeta">Número de tarjeta</label>
+      <input type="text" name="numero_tarjeta" id="numero_tarjeta" placeholder="0000 0000 0000 0000" required>
+
+      <label for="fecha_expiracion">Fecha de expiración</label>
+      <input type="text" name="fecha_expiracion" id="fecha_expiracion" placeholder="MM/AA" required>
+
+      <label for="cvv">CVV</label>
+      <input type="text" name="cvv" id="cvv" placeholder="123" required>
+
+      <button type="submit">Pagar ahora</button>
+    </form>
+  </div>
+
+</body>
+</html>
