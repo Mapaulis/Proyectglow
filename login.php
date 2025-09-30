@@ -189,16 +189,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <button type="submit" class="button">Iniciar sesión</button>
+    
+    <button class="button" onclick="window.location.href='recuperar.php'">Restablecer Contras
+      666eña</button>
+
+
 </form>
 
 
-      <div>
-<div style="margin-top: 15px;">
-  <a href="recuperar_contrasena.php" class="button" style="display: inline-block; text-align: center; text-decoration: none;">¿Olvidaste tu contraseña?</a>
-</div>
-
-      </div>
-    </div>
+     
 
     <div class="info-section">
       <h1>¿Nuevo en Glow Show Up?</h1>

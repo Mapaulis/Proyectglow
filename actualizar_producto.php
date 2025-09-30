@@ -18,5 +18,3 @@ if ($conn->query($query) === TRUE) {
     echo "Error al actualizar: " . $conn->error;
 }
 ?>
-
-
