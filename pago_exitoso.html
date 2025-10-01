@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>¡Gracias por tu compra!</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            display: grid; 
+            place-content: center; 
+            text-align: center; 
+            min-height: 100vh; 
+            background: #f0f2f5; 
+        }
+        .mensaje { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+        }
+        h2 { 
+            color: #b472ff; 
+        }
+        a { 
+            display: inline-block; 
+            margin-top: 20px; 
+            padding: 12px 20px; 
+            background-color: #b472ff; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="mensaje">
+        <h2>✅ ¡Pago Registrado con Éxito!</h2>
+        <p>Gracias por tu compra.</p>
+        <a href="productx.php">Volver al Catálogo</a>
+    </div>
+
+    <script>
+        // Este script limpia el carrito después de una compra exitosa
+        localStorage.removeItem('carrito');
+        localStorage.removeItem('totalCompra');
+    </script>
+</body>
+</html>

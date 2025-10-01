@@ -1,30 +1,63 @@
 <?php
-include("db.php");
-session_start();
 
-// Validar inicio de sesión
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: login.php");
-    exit();
+include 'conexion.php';
+
+
+// --- OBTENER DATOS REALES PARA LAS TARJETAS ---
+
+// Consulta para el total de usuarios (asumiendo que tienes una tabla 'usuarios')
+$queryUsuarios = "SELECT COUNT(id) AS total FROM usuarios";
+$resultUsuarios = $conn->query($queryUsuarios);
+$totalUsuarios = $resultUsuarios->fetch_assoc()['total'];
+
+// Consulta para el total de productos
+$queryProductos = "SELECT COUNT(id) AS total FROM productos";
+$resultProductos = $conn->query($queryProductos);
+$totalProductos = $resultProductos->fetch_assoc()['total'];
+
+// Consulta para el total de pedidos (pagos)
+$queryPedidos = "SELECT COUNT(id) AS total FROM pagos";
+$resultPedidos = $conn->query($queryPedidos);
+$totalPedidos = $resultPedidos->fetch_assoc()['total'];
+
+// Consulta para ventas de hoy. CURDATE() obtiene la fecha actual.
+$queryVentasHoy = "SELECT COUNT(id) AS total FROM pagos WHERE DATE(fecha_pago) = CURDATE()";
+$resultVentasHoy = $conn->query($queryVentasHoy);
+$ventasHoy = $resultVentasHoy->fetch_assoc()['total'];
+
+
+// Suma la columna 'cantidad' de la tabla 'carritos'
+$queryCarrito = "SELECT SUM(cantidad) AS total FROM carritos";
+$resultCarrito = $conn->query($queryCarrito);
+// Si no hay nada en los carritos, el total será NULL, así que lo convertimos a 0
+$totalCarrito = $resultCarrito->fetch_assoc()['total'] ?? 0;
+
+// --- OBTENER LISTAS DE ELEMENTOS RECIENTES ---
+
+// Consulta para productos recientes (los últimos 5 añadidos)
+$queryProductosRecientes = "SELECT nombre, precio, stock FROM productos ORDER BY id DESC LIMIT 5";
+$resultProductosRecientes = $conn->query($queryProductosRecientes);
+$productosRecientes = [];
+while($row = $resultProductosRecientes->fetch_assoc()) {
+    $productosRecientes[] = $row;
 }
 
-// Contar datos
-$totalUsuarios = $conn->query("SELECT COUNT(*) as total FROM usuarios")->fetch_assoc()['total'];
-$totalProductos = $conn->query("SELECT COUNT(*) as total FROM productos")->fetch_assoc()['total'];
-$totalPedidos = $conn->query("SELECT COUNT(*) as total FROM pedidos")->fetch_assoc()['total'];
-$totalCarrito = $conn->query("SELECT COUNT(*) as total FROM carrito")->fetch_assoc()['total'];
-
-$ventasHoy = $conn->query("SELECT COUNT(*) as total FROM pedidos WHERE DATE(fecha_pedido) = CURDATE()")->fetch_assoc()['total'];
-$productosRecientes = $conn->query("SELECT nombre, precio, stock FROM productos ORDER BY id DESC LIMIT 5");
-$pedidosRecientes = $conn->query("SELECT p.id, u.nombre as usuario, p.total, p.estado FROM pedidos p JOIN usuarios u ON p.usuario_id = u.id ORDER BY p.fecha_pedido DESC LIMIT 5");
+// Consulta para pedidos recientes (los últimos 5 pagos)
+$queryPedidosRecientes = "SELECT id, nombre AS usuario, total FROM pagos ORDER BY id DESC LIMIT 5";
+$resultPedidosRecientes = $conn->query($queryPedidosRecientes);
+$pedidosRecientes = [];
+while($row = $resultPedidosRecientes->fetch_assoc()) {
+    // Añadimos un 'estado' de ejemplo, ya que no lo tienes en tu tabla 'pagos'
+    $row['estado'] = 'completed'; 
+    $pedidosRecientes[] = $row;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Glow Show Up</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Dashboard Demo - Glow Show Up</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Estilos completamente renovados para dashboard moderno */
@@ -279,26 +312,14 @@ $pedidosRecientes = $conn->query("SELECT p.id, u.nombre as usuario, p.total, p.e
         .status-completed { background: #d4edda; color: #155724; }
         .status-processing { background: #cce7ff; color: #004085; }
 
-        .logout-btn {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
+        .demo-banner {
             background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
+            padding: 1rem 2rem;
+            text-align: center;
             font-weight: 500;
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+            margin-bottom: 2rem;
+            border-radius: 10px;
         }
 
         /* Responsive */
@@ -355,15 +376,17 @@ $pedidosRecientes = $conn->query("SELECT p.id, u.nombre as usuario, p.total, p.e
 
         <!-- Contenido principal mejorado -->
         <main class="main-content">
+            <div class="demo-banner">
+                <i class="fas fa-info-circle"></i> VERSIÓN DEMO - Dashboard sin autenticación para pruebas
+            </div>
+            
             <header class="dashboard-header">
                 <h1>Dashboard</h1>
                 <div class="user-info">
-                    <div class="user-avatar">
-                        <?php echo strtoupper(substr($_SESSION['usuario_id'], 0, 1)); ?>
-                    </div>
+                    <div class="user-avatar">A</div>
                     <div>
-                        <p><strong><?php echo $_SESSION['usuario_id']; ?></strong></p>
-                        <p style="font-size: 0.9rem; color: #666;"><?php echo ucfirst($_SESSION['rol']); ?></p>
+                        <p><strong>Administrador Demo</strong></p>
+                        <p style="font-size: 0.9rem; color: #666;">Admin</p>
                     </div>
                 </div>
             </header>
@@ -414,7 +437,7 @@ $pedidosRecientes = $conn->query("SELECT p.id, u.nombre as usuario, p.total, p.e
                         <h3><i class="fas fa-box-open"></i> Productos Recientes</h3>
                     </div>
                     <div class="content-card-body">
-                        <?php while($producto = $productosRecientes->fetch_assoc()): ?>
+                        <?php foreach($productosRecientes as $producto): ?>
                         <div class="list-item">
                             <div class="item-info">
                                 <h4><?php echo htmlspecialchars($producto['nombre']); ?></h4>
@@ -422,7 +445,7 @@ $pedidosRecientes = $conn->query("SELECT p.id, u.nombre as usuario, p.total, p.e
                             </div>
                             <div class="item-value">$<?php echo number_format($producto['precio'], 2); ?></div>
                         </div>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
@@ -431,7 +454,7 @@ $pedidosRecientes = $conn->query("SELECT p.id, u.nombre as usuario, p.total, p.e
                         <h3><i class="fas fa-receipt"></i> Pedidos Recientes</h3>
                     </div>
                     <div class="content-card-body">
-                        <?php while($pedido = $pedidosRecientes->fetch_assoc()): ?>
+                        <?php foreach($pedidosRecientes as $pedido): ?>
                         <div class="list-item">
                             <div class="item-info">
                                 <h4>Pedido #<?php echo $pedido['id']; ?></h4>
@@ -444,17 +467,11 @@ $pedidosRecientes = $conn->query("SELECT p.id, u.nombre as usuario, p.total, p.e
                                 </span>
                             </div>
                         </div>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-
-    <!-- Botón de logout mejorado -->
-    <a class="logout-btn" href="logout.php">
-        <i class="fas fa-sign-out-alt"></i>
-        Cerrar Sesión
-    </a>
 </body>
 </html>

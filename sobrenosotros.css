@@ -1,0 +1,199 @@
+/* sobrenosotros.css - Estilos para la página Sobre Nosotros */
+
+/* Reset y estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.sobrenosotros-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.sobrenosotros-header h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+.sobrenosotros-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Secciones */
+.seccion {
+    padding: 60px 0;
+}
+
+.seccion:nth-child(even) {
+    background-color: white;
+}
+
+.seccion h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+/* Historia */
+.historia-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.historia-texto {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.historia-imagen {
+    width: 100%;
+    height: 300px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Misión y Visión */
+.mision-vision {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.mision, .vision {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.mision h3, .vision h3 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* Equipo */
+.equipo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.miembro-equipo {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.miembro-imagen {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #dee2e6;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+}
+
+.miembro-nombre {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.miembro-rol {
+    color: #667eea;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+/* Valores */
+.valores-lista {
+    list-style: none;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.valor-item {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+}
+
+.valor-icono {
+    width: 40px;
+    height: 40px;
+    background-color: #667eea;
+    border-radius: 50%;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .historia-content,
+    .mision-vision {
+        grid-template-columns: 1fr;
+    }
+    
+    .sobrenosotros-header h1 {
+        font-size: 2rem;
+    }
+    
+    .seccion h2 {
+        font-size: 2rem;
+    }
+}
+
+/* Animaciones */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

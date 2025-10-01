@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Realizar Pago | Glow Show Up</title>
+    <style>
+        /* Tu CSS se queda exactamente igual */
+        body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: url('imagenes/fondopago.png') no-repeat center center fixed; background-size: cover; }
+        .contenedor-pago { display: flex; gap: 40px; background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .formulario-pago { width: 400px; }
+        .resumen-pedido { width: 300px; background: #f7f7f7; padding: 20px; border-radius: 10px; }
+        .resumen-pedido h3 { text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-top: 0; }
+        #lista-resumen { list-style: none; padding: 0; }
+        #lista-resumen li { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+        #total-resumen { text-align: right; font-weight: bold; font-size: 1.2rem; margin-top: 20px; color: #b472ff; }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        .input-grupo { display: flex; gap: 10px; }
+        button { width: 100%; padding: 15px; background-color: #b472ff; color: white; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-pago">
+        <div class="formulario-pago">
+            <h2>Información de Pago</h2>
+            <form action="procesar_pago.php" method="POST">
+                <label for="nombre">Nombre completo:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre en la tarjeta" required>
+                
+                <label for="numero_tarjeta">Número de Tarjeta:</label>
+                <input type="text" id="numero_tarjeta" name="numero_tarjeta" placeholder="0000 0000 0000 0000" maxlength="16" required>
+
+                <div class="input-grupo">
+                    <div>
+                        <label for="fecha_expiracion">Expira (MM/AA):</label>
+                        <input type="text" id="fecha_expiracion" name="fecha_expiracion" placeholder="MM/AA" maxlength="5" required>
+                    </div>
+                    <div>
+                        <label for="cvv">CVV:</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4" required>
+                    </div>
+                </div>
+
+                <input type="hidden" name="total_pago" id="total_pago_input">
+                <button type="submit">Finalizar Compra</button>
+            </form>
+        </div>
+
+        <div class="resumen-pedido">
+            <h3>Resumen de tu Pedido</h3>
+            <ul id="lista-resumen"></ul>
+            <div id="total-resumen"></div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const listaResumen = document.getElementById('lista-resumen');
+        const totalResumen = document.getElementById('total-resumen');
+        const totalPagoInput = document.getElementById('total_pago_input');
+
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        const total = localStorage.getItem('totalCompra') || 0;
+
+        if (carrito.length === 0) {
+            listaResumen.innerHTML = '<p>No hay productos en tu pedido.</p>';
+        } else {
+            carrito.forEach(producto => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${producto.nombre} (x${producto.cantidad})</span>
+                    <strong>$${(producto.precio * producto.cantidad).toLocaleString('es-CO')}</strong>
+                `;
+                listaResumen.appendChild(li);
+            });
+        }
+
+       const totalNumerico = parseFloat(total);
+        const totalFormateado = totalNumerico.toLocaleString('es-CO');
+        
+        // Muestra el total correcto en el resumen
+        totalResumen.textContent = `Total a Pagar: $${totalFormateado}`;
+        
+        // Asigna el total correcto al campo oculto del formulario
+        totalPagoInput.value = totalNumerico;
+    });
+        // --- Lógica para el formato MM/AA ---
+        document.getElementById('fecha_expiracion').addEventListener('input', function(e) {
+            let input = e.target.value.replace(/\D/g, '');
+            input = input.substring(0, 4);
+            let month = input.substring(0, 2);
+            let year = input.substring(2, 4);
+            if (input.length > 2) {
+                e.target.value = `${month}/${year}`;
+            } else {
+                e.target.value = month;
+            }
+        });
+
+        // --- VALIDACIONES DE LOS CAMPOS ---
+        document.getElementById('nombre').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[0-9]/g, '');
+        });
+        document.getElementById('numero_tarjeta').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+        document.getElementById('cvv').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+    
+    </script>
+
+</body>
+</html>
