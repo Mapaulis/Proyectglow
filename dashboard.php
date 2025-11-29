@@ -377,7 +377,7 @@ while($row = $resultPedidosRecientes->fetch_assoc()) {
         <!-- Contenido principal mejorado -->
         <main class="main-content">
             <div class="demo-banner">
-                <i class="fas fa-info-circle"></i> VERSIÓN DEMO - Dashboard sin autenticación para pruebas
+                <i class="fas fa-info-circle"></i> Dashboard
             </div>
             
             <header class="dashboard-header">
