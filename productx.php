@@ -9,7 +9,7 @@ $productos = [
     [
         'nombre' => 'Hoodie Negro',
         'precio' => 95000,
-        'imagen' => 'https://tse1.explicit.bing.net/th/id/OIP.dJ4CaN6ZoiBungcBejF59wHaIZ?rs=1&pid=ImgDetMain&o=7&rm=3'
+        'imagen' => 'https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=250&h=250&fit=crop'
     ],
     [
         'nombre' => 'Camisa Casual',
