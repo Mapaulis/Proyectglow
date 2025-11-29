@@ -9,6 +9,7 @@
 $mensaje = ""; // Para mostrar mensajes al usuario
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
   // Conexión sin contraseña (por defecto en XAMPP)
   $conexion = new mysqli("localhost", "root", "", "glow_showup");
 
@@ -35,9 +36,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if ($verifica->num_rows > 0) {
     $mensaje = "❌ Este correo ya está registrado.";
   } else {
+
+    // 🔐 Encriptar contraseña
+    $passwordSegura = password_hash($password, PASSWORD_BCRYPT);
+
     // Insertar nuevo usuario
     $stmt = $conexion->prepare("INSERT INTO usuarios (email, password, nombre, apellidos, telefono, novedades) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssi", $email, $password, $nombre, $apellidos, $telefonoCompleto, $novedades);
+    $stmt->bind_param("sssssi", $email, $passwordSegura, $nombre, $apellidos, $telefonoCompleto, $novedades);
 
     if ($stmt->execute()) {
       echo "<script>
@@ -56,6 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $conexion->close();
 }
 ?>
+
+
 <style>
     * {
     box-sizing: border-box;
